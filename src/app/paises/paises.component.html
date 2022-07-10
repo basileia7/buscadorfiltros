@@ -1,0 +1,54 @@
+<app-detalle *ngIf="paisSeleccionado" [pais]="paisSeleccionado"></app-detalle>
+<div class="card border-primary col-12">
+  <div class="card-body text-primary">
+    <h2 class="card-title">Listado de países</h2>
+
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped row-border hover">
+        <thead>
+          <tr>
+            <th>Continente</th>
+            <th>País</th>
+            <th>Capital</th>
+            <th>Población</th>
+            <th>Más info</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let pais of paises
+                | buscarRegion: buscarporRegion
+                | searchFilter: searchTerm
+                | paginate
+                  : {
+                      itemsPerPage: 11,
+                      currentPage: page,
+                      totalItems: totalPaginas
+                    }
+            "
+          >
+            <td>{{ pais.region }}</td>
+            <td>{{ pais.name }}</td>
+            <td>{{ pais.capital }}</td>
+            <td>{{ pais.population | number }}</td>
+
+            <td align="center">
+              <i
+                (click)="abrirModal(pais)"
+                class="bi bi-info-circle-fill"
+                style="cursor: pointer"
+              ></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <pagination-controls class="text-center"
+      (pageChange)="page = $event"
+      previousLabel="Anterior"
+      nextLabel="Siguiente"
+      
+    ></pagination-controls>
+  </div>
+</div>
